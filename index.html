@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <style>
+      video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1; /* behind scene */
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Camera feed element -->
+    <video id="cameraFeed" autoplay playsinline></video>
+
+    <!-- A-Frame scene -->
+    <a-scene embedded>
+
+      <a-entity gltf-model="taj.glb"
+                position="0 1.2 -2"
+                scale="1 1 1">
+      </a-entity>
+
+      <a-camera></a-camera>
+    </a-scene>
+
+    <script>
+      // Start phone camera manually
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then(stream => {
+          document.getElementById("cameraFeed").srcObject = stream;
+        })
+        .catch(err => console.log("Camera error:", err));
+    </script>
+
+  </body>
+</html>
